@@ -1,0 +1,13 @@
+{
+  "name": "student-exec-salaries",
+  "version": "1.0.0",
+  "description": "An interactive map comparing student union executive salaries across Canada.",
+  "author": "Peter Siemens",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-minifier": "^0.1.4",
+    "gulp-replace": "^0.5.4"
+  }
+}

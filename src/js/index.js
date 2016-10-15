@@ -1,5 +1,6 @@
+var WIDTH = 800;
+var HEIGHT = 533;
 var DATA_URL = 'https://s3-us-west-1.amazonaws.com/ubyssey/media/data/student-union-salaries.csv'
-
 var COLUMNS = ['School', 'Salary', 'Undergrad Population'];
 var COLORS = ['#a6cee3','#1f78b4','#3814a0','#b2df8a','#27ca1e','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#bb9e2f','#b15928'];
 
@@ -95,8 +96,13 @@ function StudentUnionSalaries() {
       .classed('sus-salaries__schools-container', true)
       .append('svg')
       .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', '0 0 800 533')
+      .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT)
       .classed('sus-salaries__schools', true);
+
+    var tooltip = d3.select('.sus-salaries__map')
+      .append('div')
+      .attr('class', 'sus-salaries__schools__tooltip')
+      .style('display', 'none');
 
     var r = getRadiusScale();
 
@@ -107,7 +113,20 @@ function StudentUnionSalaries() {
       .attr('cy', function(d) { return d.y; })
       .attr('cx', function(d) { return d.x; })
       .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
-      .style('fill', function(d) { return COLORS[d.Index]; });
+      .style('fill', function(d) { return COLORS[d.Index]; })
+      .on('mouseover', function(d) {
+        var r = getRadiusScale(),
+          radius = r(parseInt(d[chart.sortBy], 10)),
+          left = parseInt(d.x, 10) + radius + 5,
+          top = parseInt(d.y, 10) - 14;
+
+        tooltip
+          .style('display', 'block')
+          .style('top', (top / HEIGHT * 100) + '%')
+          .style('left', (left / WIDTH * 100) + '%')
+          .html(d.School);
+      })
+      .on('mouseout', function(d) { tooltip.style('display', 'none'); });
   }
 
   function updateMap() {

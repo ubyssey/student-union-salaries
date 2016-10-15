@@ -1,3 +1,7 @@
+.sus-salaries {
+  font-family: LFT Etica;
+}
+
 .sus-salaries__container {
   width: 100%;
   max-width: 960px;
@@ -47,7 +51,11 @@
 }
 
 .sus-salaries__schools circle {
-  opacity: 0.9;
+  opacity: 0.85;
+}
+
+.sus-salaries__schools circle:hover {
+  opacity: 0.95;
 }
 
 .sus-salaries__schools__tooltip {
@@ -61,4 +69,85 @@
   color: white;
   font-family: LFT Etica;
   border-radius: 4px;
+}
+
+.sus-salaries__table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+}
+
+.sus-salaries__table__flex {
+  display: flex;
+}
+
+.sus-salaries__table__icon {
+  margin-right: 8px;
+}
+
+.sus-salaries__table__icon > span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+}
+
+.sus-salaries__table__school {
+  font-weight: 600;
+  flex: 1;
+}
+
+.sus-salaries__table__sort {
+  display: inline-block;
+  width: 10px;
+  height: 7px;
+  margin-left: 5px;
+  background-image: url('images/caret.png');
+  background-size: 100%;
+  visibility: hidden;
+}
+
+.sus-salaries__table__sort--desc,
+.sus-salaries__table__sort--asc,
+.sus-salaries__table th:hover .sus-salaries__table__sort
+{
+  visibility: visible;
+}
+
+.sus-salaries__table__sort--asc {
+  transform: rotate(180deg);
+}
+
+.sus-salaries__table td, .sus-salaries__table th {
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.sus-salaries__table td:first-child, .sus-salaries__table th:first-child {
+  padding-left: 10px;
+}
+
+.sus-salaries__table th {
+  padding-top: 10px;
+  padding-bottom: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sus-salaries__table th > span {
+  vertical-align: middle;
+}
+
+.sus-salaries__table th:hover {
+  background-color: #fbfbfb;
+}
+
+.sus-salaries__table td {
+  padding-top: 10px;
+  padding-bottom: 8px;
+  border-top: 1px solid #e6e6e6;
 }

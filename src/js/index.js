@@ -1,7 +1,12 @@
 var WIDTH = 800;
 var HEIGHT = 533;
 var DATA_URL = 'https://s3-us-west-1.amazonaws.com/ubyssey/media/data/student-union-salaries.csv'
-var COLUMNS = ['School', 'Salary', 'Undergrad Population'];
+var COLUMNS = [
+  'School',
+  'Salary',
+  'Undergrad Population',
+  'Executives'
+];
 var COLORS = ['#a6cee3','#1f78b4','#3814a0','#b2df8a','#27ca1e','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#bb9e2f','#b15928'];
 
 function StudentUnionSalaries() {
@@ -10,6 +15,7 @@ function StudentUnionSalaries() {
 
   chart.sortBy = 'Salary';
   chart.sortDir = d3.descending;
+  chart.mapSortBy = 'Salary';
   chart.data = null;
   chart.rows = null;
   chart.circles = null;
@@ -21,6 +27,7 @@ function StudentUnionSalaries() {
 
   function updateChart() {
     if (chart.sortBy !== 'School') {
+      chart.mapSortBy = chart.sortBy;
       updateMap();
     }
 
@@ -36,17 +43,35 @@ function StudentUnionSalaries() {
     }
   }
 
+  function renderHeader(column) {
+    var className = 'sus-salaries__table__sort';
+
+    if (chart.sortBy === column) {
+      var direction = chart.sortDir === d3.descending ? 'desc' : 'asc';
+      className += ' sus-salaries__table__sort--' + direction;
+    }
+
+    return '<span>' + column + '</span><span class="' + className + '"></span>';
+  }
+
+  function sortRows(a, b) {
+    return chart.sortDir(a[chart.sortBy], b[chart.sortBy]);
+  }
+
   function insertTable() {
-    var table = d3.select('.sus-salaries__container').append('table'),
-        thead = table.append('thead'),
+    var table = d3.select('.sus-salaries__container')
+      .append('table')
+      .classed('sus-salaries__table', true);
+
+    var thead = table.append('thead'),
         tbody = table.append('tbody');
 
-    thead.append('tr')
+    chart.headers = thead.append('tr')
       .selectAll('th')
       .data(COLUMNS)
       .enter()
       .append('th')
-      .text(function(column) { return column; })
+      .html(renderHeader)
       .on('click', function(column, i) {
         updateSort(column);
         updateChart();
@@ -55,7 +80,8 @@ function StudentUnionSalaries() {
     chart.rows = tbody.selectAll('tr')
       .data(chart.data)
       .enter()
-      .append('tr');
+      .append('tr')
+      .sort(sortRows);
 
     var cells = chart.rows.selectAll('td')
       .data(function(row) {
@@ -67,7 +93,7 @@ function StudentUnionSalaries() {
       .append('td')
       .html(function(d, i) {
         if (i === 0) {
-          return '<span class="sus-salaries__table__icon" style="background-color: ' + COLORS[d.color] + '"></span>' + d.value;
+          return '<div class="sus-salaries__table__flex"><div class="sus-salaries__table__icon"><span style="background-color: ' + COLORS[d.color] + '"></span></div><div class="sus-salaries__table__school">' + d.value + '</div></div>';
         } else {
           return d.value;
         }
@@ -77,17 +103,20 @@ function StudentUnionSalaries() {
   }
 
   function updateTable() {
-    chart.rows.sort(function (a,b) {
-      return chart.sortDir(a[chart.sortBy], b[chart.sortBy]);
-    });
+    chart.headers.html(renderHeader);
+    chart.rows.sort(sortRows);
+  }
+
+  function getInteger(raw) {
+    return parseInt(raw.replace(/\$|\,/g, ''), 10);
   }
 
   function getRadiusScale() {
-    var values = chart.data.map(function(d) { return parseInt(d[chart.sortBy], 10); })
+    var values = chart.data.map(function(d) { return getInteger(d[chart.mapSortBy]); })
 
     return d3.scale.linear()
-        .range([0, 25])
-        .domain([0, d3.max(values)]);
+      .range([0, 25])
+      .domain([0, d3.max(values)]);
   }
 
   function insertMap() {
@@ -112,13 +141,16 @@ function StudentUnionSalaries() {
       .append('circle')
       .attr('cy', function(d) { return d.y; })
       .attr('cx', function(d) { return d.x; })
-      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
+      .attr('r', function(d) { return r(getInteger(d[chart.mapSortBy])); })
       .style('fill', function(d) { return COLORS[d.Index]; })
       .on('mouseover', function(d) {
         var r = getRadiusScale(),
-          radius = r(parseInt(d[chart.sortBy], 10)),
-          left = parseInt(d.x, 10) + radius + 5,
-          top = parseInt(d.y, 10) - 14;
+            radius = r(getInteger(d[chart.mapSortBy])),
+            left = parseInt(d.x, 10) + radius + 5,
+            top = parseInt(d.y, 10) - 14;
+
+        console.log(chart.mapSortBy);
+        console.log(left);
 
         tooltip
           .style('display', 'block')
@@ -135,7 +167,7 @@ function StudentUnionSalaries() {
     chart.circles
       .data(chart.data)
       .transition()
-      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); });
+      .attr('r', function(d) { return r(getInteger(d[chart.mapSortBy])); });
   }
 
   // Initialize

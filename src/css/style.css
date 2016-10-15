@@ -1,5 +1,6 @@
 .sus-salaries {
   font-family: LFT Etica;
+  color: #333;
 }
 
 .sus-salaries__container {
@@ -35,6 +36,50 @@
   height: auto;
 }
 
+.sus-salaries__map__legend {
+  position: absolute;
+  left: 3%;
+  bottom: 6%;
+}
+
+.sus-salaries__map__legend h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sus-salaries__map__legend ul {
+  display: inline-block;
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+  font-size: 13px;
+}
+
+.sus-salaries__map__legend ul li {
+  display: inline-block;
+  padding-top: 5px;
+  margin-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #888888;
+  background: #f7f7f7;
+}
+
+.sus-salaries__map__legend ul li:hover,
+.sus-salaries__map__legend ul li.active {
+  color: #fff;
+  background-color: #333;
+}
+
+.sus-salaries__map__legend ul li:last-child {
+  border-right: none;
+}
+
 .sus-salaries__schools-container {
   position: absolute;
   top: 0;
@@ -67,8 +112,8 @@
   background: rgba(0, 0, 0, 0.75);
   font-size: 12px;
   color: white;
-  font-family: LFT Etica;
   border-radius: 4px;
+  z-index: 200;
 }
 
 .sus-salaries__table {
@@ -121,13 +166,15 @@
   transform: rotate(180deg);
 }
 
-.sus-salaries__table td, .sus-salaries__table th {
+.sus-salaries__table td,
+.sus-salaries__table th {
   text-align: left;
   padding-left: 15px;
   padding-right: 15px;
 }
 
-.sus-salaries__table td:first-child, .sus-salaries__table th:first-child {
+.sus-salaries__table td:first-child,
+.sus-salaries__table th:first-child {
   padding-left: 10px;
 }
 

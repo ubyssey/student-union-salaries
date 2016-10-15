@@ -1,12 +1,20 @@
 var WIDTH = 800;
 var HEIGHT = 533;
 var DATA_URL = 'https://s3-us-west-1.amazonaws.com/ubyssey/media/data/student-union-salaries.csv'
+
 var COLUMNS = [
   'School',
   'Salary',
   'Undergrad Population',
   'Executives'
 ];
+
+var SORTABLE_COLUMNS = [
+  'Salary',
+  'Undergrad Population',
+  'Executives'
+];
+
 var COLORS = ['#a6cee3','#1f78b4','#3814a0','#b2df8a','#27ca1e','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#bb9e2f','#b15928'];
 
 function StudentUnionSalaries() {
@@ -128,9 +136,31 @@ function StudentUnionSalaries() {
       .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT)
       .classed('sus-salaries__schools', true);
 
+    var legend = d3.select('.sus-salaries__map')
+      .append('div')
+      .classed('sus-salaries__map__legend', true)
+      .append('div');
+
+    var legendTitle = legend.append('h2')
+      .text('Sort by:');
+
+    chart.legendOptions = legend.append('ul')
+      .selectAll('li')
+      .data(SORTABLE_COLUMNS)
+      .enter()
+      .append('li')
+      .classed('active', function(column) { return chart.mapSortBy === column; })
+      .text(function(column) { return column; })
+      .on('click', function(column, i) {
+        if (chart.mapSortBy !== column) {
+          updateSort(column);
+          updateChart();
+        }
+      });
+
     var tooltip = d3.select('.sus-salaries__map')
       .append('div')
-      .attr('class', 'sus-salaries__schools__tooltip')
+      .classed('sus-salaries__schools__tooltip', true)
       .style('display', 'none');
 
     var r = getRadiusScale();
@@ -149,9 +179,6 @@ function StudentUnionSalaries() {
             left = parseInt(d.x, 10) + radius + 5,
             top = parseInt(d.y, 10) - 14;
 
-        console.log(chart.mapSortBy);
-        console.log(left);
-
         tooltip
           .style('display', 'block')
           .style('top', (top / HEIGHT * 100) + '%')
@@ -168,6 +195,9 @@ function StudentUnionSalaries() {
       .data(chart.data)
       .transition()
       .attr('r', function(d) { return r(getInteger(d[chart.mapSortBy])); });
+
+    chart.legendOptions
+      .classed('active', function(column) { return chart.mapSortBy === column; });
   }
 
   // Initialize

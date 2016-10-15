@@ -78,7 +78,7 @@
                 <text id="Greater-Toronto-Area" sketch:type="MSTextLayer" font-family="LFT Etica" font-size="9" font-weight="313" sketch:alignment="right" fill="#8D8D8D">
                     <tspan x="518.229" y="497">Greater Toronto Area, Ottawa &amp; Montreal</tspan>
                 </text>
-                <rect id="Mask-Copy" stroke="#2E2E2E" sketch:type="MSShapeGroup" x="385.071006" y="312.412403" width="300" height="194"></rect>
+                <rect id="Mask-Copy" stroke="#7D7D7D" sketch:type="MSShapeGroup" x="385.071006" y="312.412403" width="300" height="194"></rect>
                 <g id="Labels" transform="translate(60.000000, 190.000000)" font-weight="313" font-family="LFT Etica" line-spacing="5" letter-spacing="1" sketch:type="MSTextLayer" font-size="9" sketch:alignment="middle" fill="#ACACAC">
                     <text id="BC">
                         <tspan x="12" y="136">BC</tspan>

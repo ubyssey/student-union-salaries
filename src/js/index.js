@@ -40,7 +40,10 @@ function StudentUnionSalaries() {
 
   function updateChart() {
     chart.rows = sortData(chart.rows);
-    updateMap();
+
+    if (chart.sortBy !== 'School') {
+      updateMap();
+    }
   }
 
   function sortData(data) {
@@ -102,10 +105,13 @@ function StudentUnionSalaries() {
   }
 
   function drawMap() {
-    chart.svg = d3.select('.sus-salaries__map').append('svg')
-      .classed('sus-salaries__schools', true)
-      .attr('width', width)
-      .attr('height', 640);
+    chart.svg = d3.select('.sus-salaries__map')
+      .append('div')
+      .classed('sus-salaries__schools-container', true)
+      .append('svg')
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('viewBox', '0 0 800 533')
+      .classed('sus-salaries__schools', true);
 
     var values = chart.data.map(function(d) { return parseInt(d[chart.sortBy], 10); })
 
@@ -117,8 +123,8 @@ function StudentUnionSalaries() {
       .data(chart.data.reverse())
       .enter()
       .append('circle')
-      .attr('cy', function(d) { return d.y * 1.2; })
-      .attr('cx', function(d) { return d.x * 1.2; })
+      .attr('cy', function(d) { return d.y; })
+      .attr('cx', function(d) { return d.x; })
       .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
       .style('fill', function(d) { return COLORS[d.Index]; });
   }
@@ -133,8 +139,7 @@ function StudentUnionSalaries() {
     chart.schools = chart.svg.selectAll('circle')
       .data(chart.data)
       .transition()
-      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
-      .style('fill', function(d) { return COLORS[d.Index]; });
+      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); });
 
   }
 

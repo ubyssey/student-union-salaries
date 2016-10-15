@@ -40,4 +40,8 @@ gulp.task('images', ['clean'], function() {
     .pipe(gulp.dest('./dist/images/'));
 });
 
-gulp.task('default', ['html', 'js', 'images']);
+gulp.task('build', ['html', 'js', 'images']);
+
+gulp.task('default', ['build'], function() {
+  gulp.watch(['./src/**/*'], ['build']);
+});

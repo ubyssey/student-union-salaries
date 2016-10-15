@@ -35,13 +35,12 @@ function StudentUnionSalaries() {
   chart.rows = null;
 
   function insertChart() {
-    chart.data = sortData(data);
     tabulateData(['School', 'Salary', 'Undergrad Population']);
   }
 
   function updateChart() {
-    chart.data = sortData(data);
     chart.rows = sortData(chart.rows);
+    updateMap();
   }
 
   function sortData(data) {
@@ -60,7 +59,7 @@ function StudentUnionSalaries() {
   }
 
   function tabulateData(columns) {
-    var table = d3.select('body').append('table'),
+    var table = d3.select('.sus-salaries__container').append('table'),
         thead = table.append('thead'),
         tbody = table.append('tbody');
 
@@ -102,10 +101,48 @@ function StudentUnionSalaries() {
       return table;
   }
 
+  function drawMap() {
+    chart.svg = d3.select('.sus-salaries__map').append('svg')
+      .classed('sus-salaries__schools', true)
+      .attr('width', width)
+      .attr('height', 640);
+
+    var values = chart.data.map(function(d) { return parseInt(d[chart.sortBy], 10); })
+
+    var r = d3.scale.linear()
+        .range([0, 25])
+        .domain([0, d3.max(values)]);
+
+    chart.schools = chart.svg.selectAll('circle')
+      .data(chart.data.reverse())
+      .enter()
+      .append('circle')
+      .attr('cy', function(d) { return d.y * 1.2; })
+      .attr('cx', function(d) { return d.x * 1.2; })
+      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
+      .style('fill', function(d) { return COLORS[d.Index]; });
+  }
+
+  function updateMap() {
+    var values = chart.data.map(function(d) { return parseInt(d[chart.sortBy], 10); })
+
+    var r = d3.scale.linear()
+        .range([0, 25])
+        .domain([0, d3.max(values)]);
+
+    chart.schools = chart.svg.selectAll('circle')
+      .data(chart.data)
+      .transition()
+      .attr('r', function(d) { return r(parseInt(d[chart.sortBy], 10)); })
+      .style('fill', function(d) { return COLORS[d.Index]; });
+
+  }
+
   // Initialize
   d3.csv(DATA_URL, function(error, results) {
     chart.data = results;
     insertChart();
+    drawMap();
   });
 }
 

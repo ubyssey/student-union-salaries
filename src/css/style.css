@@ -1,6 +1,42 @@
-.sus-salaries--container {
+.sus-salaries__container {
   width: 100%;
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.sus-salaries__map {
+  width: 100%;
+  position: relative;
+}
+
+.sus-salaries__map__canada {
+  width: 100%;
+  height: auto;
+}
+
+.sus-salaries__map__insert {
+  position: absolute;
+  top: 58%;
+  left: 48%;
+
+  width: 37.5%;
+
+  border: 1px solid black;
+}
+
+.sus-salaries__map__insert img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sus-salaries__schools {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sus-salaries__schools circle {
+  opacity: 0.9;
 }

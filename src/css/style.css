@@ -1,6 +1,11 @@
 .sus-salaries {
   font-family: LFT Etica;
   color: #333;
+
+@media(max-width: 860px) {
+  .sus-salaries {
+    display: none;
+  }
 }
 
 .sus-salaries__container {

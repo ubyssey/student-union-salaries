@@ -1,6 +1,7 @@
 var WIDTH = 800;
 var HEIGHT = 533;
-var DATA_URL = 'https://s3-us-west-1.amazonaws.com/ubyssey/media/data/student-union-salaries.csv'
+var DATA_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/data.csv';
+var MAP_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/images/canada-map.svg';
 
 var COLUMNS = [
   'School',
@@ -145,7 +146,7 @@ function StudentUnionSalaries() {
 
     salariesMap.append('img')
       .classed('sus-salaries__map__canada', true)
-      .attr('src', 'dist/images/canada-map.svg');
+      .attr('src', MAP_URL);
 
     var svg = salariesMap
       .append('div')

@@ -155,7 +155,7 @@
   width: 10px;
   height: 7px;
   margin-left: 5px;
-  background-image: url('dist/images/caret.png');
+  background-image: url('https://s3-us-west-1.amazonaws.com/ubyssey/media/data/sus-salaries/images/caret.png');
   background-size: 100%;
   visibility: hidden;
 }

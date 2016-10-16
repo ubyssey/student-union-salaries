@@ -6,13 +6,13 @@ var MAP_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/images/c
 var COLUMNS = [
   'School',
   'Salary',
-  'Undergrad Population',
+  'Undergrad Pop.',
   'Executives'
 ];
 
 var SORTABLE_COLUMNS = [
   'Salary',
-  'Undergrad Population',
+  'Undergrad Pop.',
   'Executives'
 ];
 

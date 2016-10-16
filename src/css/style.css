@@ -1,6 +1,9 @@
 .sus-salaries {
-  font-family: LFT Etica;
+  font-family: "ub-lft-etica", Helvetica, Arial, sans-serif;
   color: #333;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
 @media(max-width: 860px) {
   .sus-salaries {
@@ -57,8 +60,8 @@
 .sus-salaries__map__legend ul {
   display: inline-block;
   padding: 0;
-  list-style-type: none;
   margin: 0;
+  list-style-type: none;
   font-size: 13px;
 }
 

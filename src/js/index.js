@@ -17,6 +17,8 @@ var SORTABLE_COLUMNS = [
 
 var COLORS = ['#a6cee3','#1f78b4','#3814a0','#b2df8a','#27ca1e','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#bb9e2f','#b15928', '#4ad0a3'];
 
+var STYLE_STR = 'GULP_REPLACE_STYLES';
+
 function StudentUnionSalaries() {
 
   var chart = this;
@@ -51,6 +53,15 @@ function StudentUnionSalaries() {
     }
   }
 
+  function insertContainer() {
+    var root = d3.select('#sus-salaries-root');
+    chart.container = root
+      .append('div')
+      .classed('sus-salaries__container', true);
+
+    root.append('style').text(STYLE_STR);
+  }
+
   function renderHeader(column) {
     var className = 'sus-salaries__table__sort';
 
@@ -67,7 +78,7 @@ function StudentUnionSalaries() {
   }
 
   function insertTable() {
-    var table = d3.select('.sus-salaries__container')
+    var table = chart.container
       .append('table')
       .classed('sus-salaries__table', true);
 
@@ -128,7 +139,15 @@ function StudentUnionSalaries() {
   }
 
   function insertMap() {
-    var svg = d3.select('.sus-salaries__map')
+    var salariesMap = chart.container
+      .append('div')
+      .classed('sus-salaries__map', true);
+
+    salariesMap.append('img')
+      .classed('sus-salaries__map__canada', true)
+      .attr('src', 'dist/images/canada-map.svg');
+
+    var svg = salariesMap
       .append('div')
       .classed('sus-salaries__schools-container', true)
       .append('svg')
@@ -136,7 +155,7 @@ function StudentUnionSalaries() {
       .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT)
       .classed('sus-salaries__schools', true);
 
-    var legend = d3.select('.sus-salaries__map')
+    var legend = salariesMap
       .append('div')
       .classed('sus-salaries__map__legend', true)
       .append('div');
@@ -158,7 +177,7 @@ function StudentUnionSalaries() {
         }
       });
 
-    var tooltip = d3.select('.sus-salaries__map')
+    var tooltip = salariesMap
       .append('div')
       .classed('sus-salaries__schools__tooltip', true)
       .style('display', 'none');
@@ -203,6 +222,7 @@ function StudentUnionSalaries() {
   // Initialize
   d3.csv(DATA_URL, function(error, results) {
     chart.data = results;
+    insertContainer();
     insertChart();
   });
 }

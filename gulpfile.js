@@ -19,18 +19,17 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
-gulp.task('html', ['clean'], function() {
-  return gulp.src('./src/html/index.html')
-    .pipe(replace(/<link href="style.css"[^>]*>/, function(s) {
-      var style = fs.readFileSync('./src/css/style.css', 'utf8');
-      return '<style>\n' + style + '\n</style>';
-    }))
+gulp.task('css', ['clean'], function() {
+  return gulp.src('./src/css/style.css')
     .pipe(minifier())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('js', ['clean'], function() {
+gulp.task('js', ['clean', 'css'], function() {
   return gulp.src('./src/js/index.js')
+    .pipe(replace('GULP_REPLACE_STYLES', function(s) {
+      return fs.readFileSync('./dist/css/style.css', 'utf8');
+    }))
     .pipe(minifier())
     .pipe(gulp.dest('./dist/'));
 });
@@ -40,7 +39,7 @@ gulp.task('images', ['clean'], function() {
     .pipe(gulp.dest('./dist/images/'));
 });
 
-gulp.task('build', ['html', 'js', 'images']);
+gulp.task('build', ['css', 'js', 'images']);
 
 gulp.task('default', ['build'], function() {
   gulp.watch(['./src/**/*'], ['build']);

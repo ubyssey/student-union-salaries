@@ -1,19 +1,23 @@
 var WIDTH = 800;
 var HEIGHT = 533;
-var DATA_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/data.csv';
+var DATA_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/data-v2.csv';
 var MAP_URL = 'https://ubyssey.s3.amazonaws.com/media/data/sus-salaries/images/canada-map.svg';
 
 var COLUMNS = [
   'School',
-  'Salary',
-  'Undergrad Pop.',
-  'Executives'
+  'Exec. salary',
+  'Undergrad pop.',
+  '# of execs',
+  'Total exec. salary',
+  'Cost per student'
 ];
 
 var SORTABLE_COLUMNS = [
-  'Salary',
-  'Undergrad Pop.',
-  'Executives'
+  'Exec. salary',
+  'Undergrad pop.',
+  '# of execs',
+  'Total exec. salary',
+  'Cost per student'
 ];
 
 var COLORS = ['#a6cee3','#1f78b4','#3814a0','#b2df8a','#27ca1e','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#bb9e2f','#b15928', '#4ad0a3'];
@@ -24,9 +28,9 @@ function StudentUnionSalaries() {
 
   var chart = this;
 
-  chart.sortBy = 'Salary';
+  chart.sortBy = 'Exec. salary';
   chart.sortDir = d3.descending;
-  chart.mapSortBy = 'Salary';
+  chart.mapSortBy = 'Exec. salary';
   chart.data = null;
   chart.rows = null;
   chart.circles = null;
@@ -75,7 +79,10 @@ function StudentUnionSalaries() {
   }
 
   function sortRows(a, b) {
-    return chart.sortDir(a[chart.sortBy], b[chart.sortBy]);
+    return chart.sortDir(
+      getInteger(a[chart.sortBy]),//.replace('$', ''),
+      getInteger(b[chart.sortBy])//.replace('$', '')
+    );
   }
 
   function insertTable() {
@@ -128,7 +135,8 @@ function StudentUnionSalaries() {
   }
 
   function getInteger(raw) {
-    return parseInt(raw.replace(/\$|\,/g, ''), 10);
+    var integer = parseInt(raw.replace(/\$|\,/g, ''), 10);
+    return integer ? integer : raw;
   }
 
   function getRadiusScale() {

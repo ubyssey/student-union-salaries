@@ -80,8 +80,8 @@ function StudentUnionSalaries() {
 
   function sortRows(a, b) {
     return chart.sortDir(
-      getInteger(a[chart.sortBy]),//.replace('$', ''),
-      getInteger(b[chart.sortBy])//.replace('$', '')
+      getInteger(a[chart.sortBy]),
+      getInteger(b[chart.sortBy])
     );
   }
 

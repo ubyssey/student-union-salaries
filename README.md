@@ -3,7 +3,7 @@ An interactive map showing student union salaries at major Canadian universities
 
 ![Student union salaries across Canada](https://ubyssey.s3.amazonaws.com/media/images/2016/10/student-union-salaries-map.png)
 
-An digital companion to the coverage by Jack Hauen _(The Ubyssey)_, Hamza Tariq _(The Western Gazette)_ and Alex McKeen _(The Varsity)_. Read the full story here:
+A digital companion to coverage by Jack Hauen _(The Ubyssey)_, Hamza Tariq _(The Western Gazette)_ and Alex McKeen _(The Varsity)_. Read the full story here:
 
 * The Ubyssey http://ubyssey.ca/features/student-union-executive-salaries-canada/
 
